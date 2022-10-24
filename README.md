@@ -45,12 +45,3 @@ cat /var/lib/jenkins/secrets/initialAdminPassword
 ```shell
 yum install -y git
 ```
-### github 접근 토큰 생성
-내 깃허브 계정의 설정창에 들어간다.
-![image](./image/jenkins/9.png)<br/>
-![image](./image/jenkins/10.png)<br/>
-![image](./image/jenkins/11.png)<br/>
-![image](./image/jenkins/12.png)<br/>
-
-깃허브에 들어가 젠킨스와 연동한 레포지터리를 하나 생성한 후 설정에 들어간다.<br/>
-![image](./image/jenkins/6.png)<br/>

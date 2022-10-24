@@ -45,3 +45,42 @@ cat /var/lib/jenkins/secrets/initialAdminPassword
 ```shell
 yum install -y git
 ```
+
+1. github 토큰 생성<br/>
+![image](./image/jenkins/10.png)<br/>
+![image](./image/jenkins/11.png)<br/>
+토큰 이름을 입력하고 다음 설정들을 해주고 저장해준다.<br/>
+![image](./image/jenkins/12.png)<br/>
+나온 토큰 번호는 따로 저장해서 보관해둔다.<br/>
+
+2. 젠킨스에서 api key 생성<br/>
+![image](./image/jenkins/16.png)<br/>
+![image](./image/jenkins/17.png)<br/>
+나온 api key도 따로 저장해둔다.<br/>
+
+3. github 웹훅 설정<br/>
+![image](./image/jenkins/18.png)<br/>
+깃허브에 젠킨스에 연결할 레포지터리 setting에 Webhook에 들어간다.<br/>
+![image](./image/jenkins/19.png)<br/>
+내 젠킨스 아이피와 포드번호를 입력해주고 2번에서 생성한 api key를 입력하고 웹훅을 생성해준다.<br/>
+
+4. 파이프라인 생성<br/>
+![image](./image/jenkins/7.png)<br/>
+이름을 입력하고 `FreeFreestyle`선택 후 `OK`를 누른다.
+![image](./image/jenkins/8.png)<br/>
+`GitHub project` 체크<br/>
+![image](./image/jenkins/20.png)<br/>
+소스 코드 관리에서 `Git` 체크 후 연결할 github 레포지터리 주소 입력 후 credential을 등록한다.<br/>
+![image](./image/jenkins/22.png)<br/>
+![image](./image/jenkins/21.png)<br/>
+빌드 유발에서 `GitHub hook trigger for GITScm polling` 체크
+![image](./image/jenkins/23.png)<br/>
+`Build Step`s에서 `Add build step` 클릭 후 `Execute shel`l클릭 후 `echo test` 입력한 다음 `저장`을 누른다.
+![image](./image/jenkins/24.png)<br/>
+![image](./image/jenkins/25.png)<br/>
+
+5. 확인<br/>
+대시보드를 나가 다음과 같이 체크가 됐으면 성공이다.<br/>
+![image](./image/jenkins/26.png)<br/>
+
+

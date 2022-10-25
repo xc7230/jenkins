@@ -141,12 +141,21 @@ success가 뜨면 저장을 누른다.<br/>
 ![image](./image/jenkins/49.png)<br/>
 `sudo bash -c "cp -f /home/ubuntu/* /var/www/html/"` 삽입 후 저장<br/>
 ![image](./image/jenkins/50.png)<br/>
-
-4. 확인<br/>
 - 파이참에서 다시 내용을 입력해서 commit push를 해본다.<br/>
 ![image](./image/jenkins/51.png)<br/>
 ![image](./image/jenkins/52.png)<br/>
 
+4. 젠킨스로 컨테이너 이미지 만들기<br/>
+```shell
+yum install -y yum-utils 
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum-config-manager --enable docker-ce-nightly
+yum-config-manager --enable docker-ce-test
+yum install -y docker-ce docker-ce-cli containerd.io --allowerasing
+
+systemctl enable docker
+systemctl restart docker
+```
 
 
     

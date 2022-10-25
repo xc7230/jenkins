@@ -17,8 +17,6 @@ spec:
     - name: container
       image: xc7230/hello:latest
       envFrom:
-      - configMapRef:
-          name: httpd-cm-prod
       ports:
       - containerPort: 80
       resources:

@@ -87,3 +87,68 @@ yum install -y git
 ![image](./image/jenkins/27.png)<br/>
 내 github에 push가 된게 jenkins에 전달이 된다.<br/>
 ![image](./image/jenkins/28.png)<br/>
+
+## 파이참에 git 연동
+1. 파이참에 git 계정 설정<br/>
+![image](./image/jenkins/29.png)<br/>
+![image](./image/jenkins/30.png)<br/>
+![image](./image/jenkins/31.png)<br/>
+연동할 깃허브 계정 입력<br/>
+
+2. 원격 저장소에 파일 받아오기<br/>
+![image](./image/jenkins/32.png)<br/>
+![image](./image/jenkins/33.png)<br/>
+
+3. 개발 도구에서 push하기<br/>
+받아온 원격 저장소 파일에서 html 파일 생성 후 내용 입력<br/>
+![image](./image/jenkins/34.png)<br/>
+![image](./image/jenkins/35.png)<br/>
+![image](./image/jenkins/36.png)<br/>
+![image](./image/jenkins/37.png)<br/>
+
+## SSH를 이용해서 배포
+1. 젠킨스에 플러그인 설치<br/>
+![image](./image/jenkins/38.png)<br/>
+`Publish Over SSH` 체크하고 `Download now and install after restart` 하고 젠킨스 재시작<br/>
+![image](./image/jenkins/39.png)<br/>
+
+2. 젠킨스 서버에서 SSH Key 설정<br/>
+- EC2를 생성할 때 사용한 키 파일을 pem 형식으로 변환
+    - puttygen 다운
+    ![image](./image/jenkins/40.png)<br/>
+
+    - AWS에서 쓰던 `.ppk`파일 불러오기<br/>
+    ![image](./image/jenkins/41.png)<br/>
+    - Export OpenSSH Key로 `.pem` 형식으로 저장<br/>
+    ![image](./image/jenkins/42.png)<br/>
+    - 저장한 파일 Jenkins 서버로 옮기기<br/>
+        ```shell
+        vi cloudcamp.pem    # pem 파일 안에 있는 key 복사 붙여넣기
+        chmod 400 cloudcamp.pem # 권한 부여
+        ssh ubuntu@43.201.116.74 -i cloudcamp.pem # ssh ubuntu@ec2의ip주소 -i 키파일
+        ```
+        ![image](./image/jenkins/43.png)<br/>
+
+3. 젠킨스 설정 수정<br/>
+![image](./image/jenkins/44.png)<br/>
+`cloudcamp.pem` 내용 입력<br/>
+![image](./image/jenkins/45.png)<br/>
+success가 뜨면 저장을 누른다.<br/>
+![image](./image/jenkins/46.png)<br/>
+내가 만든 jenkins에 들어간다.<br/>
+![image](./image/jenkins/47.png)<br/>
+![image](./image/jenkins/48.png)<br/>
+![image](./image/jenkins/49.png)<br/>
+`sudo bash -c "cp -f /home/ubuntu/* /var/www/html/"` 삽입 후 저장<br/>
+![image](./image/jenkins/50.png)<br/>
+
+4. 확인<br/>
+- 파이참에서 다시 내용을 입력해서 commit push를 해본다.<br/>
+![image](./image/jenkins/51.png)<br/>
+![image](./image/jenkins/52.png)<br/>
+
+
+
+    
+
+

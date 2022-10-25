@@ -15,7 +15,7 @@ spec:
    spec:
     containers:
     - name: container
-      image: hello:latest
+      image: xc7230/hello:latest
       envFrom:
       - configMapRef:
           name: httpd-cm-prod

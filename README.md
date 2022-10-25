@@ -24,6 +24,7 @@ vi /usr/lib/systemd/system/jenkins.service
 
 - 젠킨스 실행
 ```shell
+systemctl daemon-reload
 systemctl restart jenkins
 ```
 내 아이피에 9090포트를 입력해 홈페이지에 접속<br/>
@@ -82,5 +83,7 @@ yum install -y git
 5. 확인<br/>
 대시보드를 나가 다음과 같이 체크가 됐으면 성공이다.<br/>
 ![image](./image/jenkins/26.png)<br/>
-
-
+연결된 레포지터리에 있는 여러 코드들을 `git`에 `commit`하고 `push`해본다.
+![image](./image/jenkins/27.png)<br/>
+내 github에 push가 된게 jenkins에 전달이 된다.<br/>
+![image](./image/jenkins/28.png)<br/>

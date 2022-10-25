@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: httpd-deployment-prod
+ namespace: prod
+spec:
+ selector:
+   matchLabels:
+    type: web
+ replicas: 2
+ template:
+   metadata:
+     labels:
+       type: web
+   spec:
+    containers:
+    - name: container
+      image: hello:latest
+      envFrom:
+      - configMapRef:
+          name: httpd-cm-prod
+      ports:
+      - containerPort: 80
+      resources:
+        requests:
+          cpu: 100m
+        limits:
+          cpu: 200m

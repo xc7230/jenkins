@@ -145,19 +145,97 @@ success가 뜨면 저장을 누른다.<br/>
 ![image](./image/jenkins/51.png)<br/>
 ![image](./image/jenkins/52.png)<br/>
 
-4. 젠킨스로 컨테이너 이미지 만들기<br/>
-```shell
-yum install -y yum-utils 
-yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-yum-config-manager --enable docker-ce-nightly
-yum-config-manager --enable docker-ce-test
-yum install -y docker-ce docker-ce-cli containerd.io --allowerasing
+## 젠킨스로 컨테이너 이미지 만들기<br/>
+1. 젠킨스 서버에 도커 설치<br/>
+    ```shell
+    yum install -y yum-utils 
+    yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    yum-config-manager --enable docker-ce-nightly
+    yum-config-manager --enable docker-ce-test
+    yum install -y docker-ce docker-ce-cli containerd.io --allowerasing
 
-systemctl enable docker
-systemctl restart docker
+    systemctl enable docker
+    systemctl restart docker
+    ```
+2. 젠킨스로 도커 이미지 생성<br/>
+- 파이참 프로젝트에서 `Dockerfile` 작성<br/>
+    ![image](./image/jenkins/53.png)<br/>
+    ```shell
+    FROM httpd:2.4
+    EXPOSE 80
+    ADD ./* /usr/local/apache2/htdocs/
+    CMD httpd-foreground
+    ```
+- commit, push로 github에 업로드 하기<br/>
+```shell
+docker login -u 도커아이디 -p 비밀번호
+docker build --tag xc7230/hello:$BUILD_ID .
+docker push xc7230/hello:$BUILD_ID
+```
+![image](./image/jenkins/54.png)<br/>
+빌드가 성공이 되면 도커 허브에 들어가 재대로 push가 됐는지 확인한다.<br/>
+![image](./image/jenkins/55.png)<br/>
+
+## 쿠버네티스 환경에 배포
+1. k8s master 노드에서 ssh 키 설정<br/>
+```shell
+cd ~/.ssh
+ssh-keygen -t rsa -b 4096 -m PEM  #엔터 3번
+ssh-copy-id root@마스터노드IP   # 비밀번호 설정
+cat id_rsa # 내용 복사
+chmod 400 id_rsa
+ssh root@마스터노드IP -i id_rsa
 ```
 
-
+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
     
 
 

@@ -186,3 +186,53 @@ cat id_rsa # 내용 복사
 chmod 400 id_rsa
 ssh root@마스터노드IP -i id_rsa
 ```
+
+2. 젠킨스에서 설정 변경<br/>
+- 젠킨스 대시보드
+![image](./image/jenkins/56.png)<br/>
+마스터 노드 key 입력<br/>
+![image](./image/jenkins/57.png)<br/>
+Name은 아무거나 나머지는 쿠버네티스 설정에 맞춰서<br/>
+![image](./image/jenkins/58.png)<br/>
+
+- 젠킨스 파이프라인
+만들어 놓은 파이프 라인 - 구성 - Send build artifacts over SSH 입력<br/>
+![image](./image/jenkins/59.png)<br/>
+    ```shell
+    sed -i "s/latest/$BUILD_ID/g" httpd-deployment-prod.yml
+    sudo bash -c "kubectl apply -f httpd-deployment-prod.yml"
+    ```
+
+
+3. 개발환경 설정<br/>
+- 깃허브와 연결된 파이참에 `httpd-deployment-prod.yml` 파일 생성 후 다음 내용 입력<br/>
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: httpd-deployment-prod
+ namespace: prod
+spec:
+ selector:
+   matchLabels:
+    type: web
+ replicas: 2
+ template:
+   metadata:
+     labels:
+       type: web
+   spec:
+    containers:
+    - name: container
+      image: xc7230/hello:latest
+      envFrom:
+      ports:
+      - containerPort: 80
+      resources:
+        requests:
+          cpu: 100m
+        limits:
+          cpu: 200m
+```
+설정이 다 끝나면 `commit`, `push`해서 쿠버네티스 대시보드에 나오는지 확인해준다.<br/>
+![image](./image/jenkins/60.png)<br/>
